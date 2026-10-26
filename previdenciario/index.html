@@ -328,7 +328,11 @@ width:100%;background:var(--paper);color:var(--ink);font-family:'Montserrat',sys
 .ftr-disc{display:block !important;margin-top:22px !important;max-width:330px;line-height:1.6}
 .ftr-bottom{margin-top:60px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12.5px;color:#7F8E92}
 
-.sticky{display:none}
+.fab{position:fixed;right:24px;bottom:24px;z-index:40;width:62px;height:62px;border-radius:50%;background:#11823B;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(17,130,59,.38);transition:transform .3s ease,background .3s ease}
+.fab:hover{transform:scale(1.06);background:#0E7233;color:#fff}
+.fab::before{content:'';position:absolute;inset:0;border-radius:50%;background:#11823B;opacity:.35;animation:fabPing 2.4s cubic-bezier(0,0,.2,1) infinite;z-index:-1}
+.fab .wa{width:30px;height:30px}
+@keyframes fabPing{75%,100%{transform:scale(1.5);opacity:0}}
 
 /* keyframes */
 @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
@@ -441,11 +445,32 @@ width:100%;background:var(--paper);color:var(--ink);font-family:'Montserrat',sys
 .faq-btn{font-size:15.5px;padding:20px 0}
 .faq-a p{padding-right:4px}
 .form{padding:36px 22px 30px;border-radius:26px}
-.ftr{margin-top:-36px;padding-top:72px;border-radius:36px 36px 0 0;padding-bottom:110px}
+.ftr{margin-top:-36px;padding-top:72px;border-radius:36px 36px 0 0;padding-bottom:96px}
 .ftr-grid{grid-template-columns:minmax(0,1fr);gap:36px}
-.sticky{display:block;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:rgba(34,49,54,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid rgba(253,209,161,.2);transform:translateY(110%);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-.sticky.is-on{transform:none}
-.sticky .btn{width:100%;min-height:52px}
+.fab{right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:58px;height:58px}
+}
+@media (max-width:960px){
+.hero-copy,.sec-head,.feat-copy,.cta-copy,.sobre-copy,.faq-side,.neg-top>div:first-child,.panel,.card,.how-item,.st,.neg-foot,.ftr-grid>div,.ftr-bottom,.cmp div{text-align:center}
+.lp h2::after,.hero h1::after{margin-left:auto;margin-right:auto}
+.eyebrow{justify-content:center}
+.lead-sm,.txt,.note,.hero .lead,.faq-side p,.neg-foot p,.how-item p,.ftr-disc{margin-left:auto !important;margin-right:auto !important}
+.hero-ctas{align-items:center}.hero-ctas .lnk{align-self:center}
+.trust{align-items:center}
+.card-ic,.how-ic{margin-left:auto;margin-right:auto}
+.card .lnk{align-self:center}
+.st-top{flex-direction:column;gap:12px}
+.st h3{margin-top:0 !important;padding-top:14px}
+.hl div{justify-content:center}
+.rows{justify-content:center}
+.plist li{justify-content:center}
+.cta-list{align-items:center}
+.sobre-meta{justify-content:center}
+.neg-foot{justify-content:center}
+.ftr p{justify-content:center}
+.ftr-links{align-items:center}
+.ftr-logo{margin:0 auto}
+.ftr-bottom{justify-content:center}
+.fv-note{right:50%;transform:translateX(50%);white-space:nowrap}
 }
 @media (max-width:520px){
 .hero h1{font-size:40px}
@@ -863,9 +888,7 @@ width:100%;background:var(--paper);color:var(--ink);font-family:'Montserrat',sys
 </div>
 </footer>
 
-<div class="sticky" id="sticky">
-<a class="btn btn-wa-cta" href="#contato" data-cta="sticky"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg>Falar com a advogada</a>
-</div>
+<a class="fab" id="fab" href="/previdenciario/redirect" aria-label="Falar com a advogada pelo WhatsApp"><svg class="wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path></svg></a>
 
 </div>
 
@@ -920,13 +943,10 @@ width:100%;background:var(--paper);color:var(--ink);font-family:'Montserrat',sys
   document.querySelectorAll('[data-close-menu]').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
 
   // Header ao rolar + CTA fixo no mobile
-  var sticky = document.getElementById('sticky');
   var contato = document.getElementById('contato');
   function onScroll(){
     var y = window.scrollY || document.documentElement.scrollTop;
     hdr.classList.toggle('is-scrolled', y > 24);
-    var nearForm = contato.getBoundingClientRect().top < window.innerHeight * 0.95;
-    sticky.classList.toggle('is-on', y > 560 && !nearForm);
   }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
