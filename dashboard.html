@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Leads — Débora Carvalho Advocacia</title>
+<link rel="icon" href="/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&amp;family=Montserrat:wght@400;500;600&amp;display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#223136;color:#E8EDEE;font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+[hidden]{display:none !important}
+button,input{font:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 24px 64px}
+.card{background:#2F4147;border:1px solid #425961;border-radius:12px;padding:20px}
+.muted{color:#AEBDC1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:36px;padding:0 14px;border-radius:8px;border:1px solid #4D646C;background:#2F4147;color:#E8EDEE;cursor:pointer;font-size:12.5px;font-weight:600;letter-spacing:.04em;text-decoration:none;transition:background .2s,border-color .2s}
+.btn:hover{background:#3A4E55;border-color:#5C747C}
+.btn-primary{background:#FDD1A1;color:#223136;border-color:#FDD1A1}
+.logo{display:block;height:auto}
+.login .logo{width:190px;margin:0 auto 18px}
+.top .logo{width:170px;margin-bottom:10px}
+.top h1,.login h1{font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:0;color:#FDD1A1}
+.btn-primary:hover{background:#E8EDEE;border-color:#E8EDEE}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn:focus-visible,input:focus-visible{outline:2px solid #94A6AB;outline-offset:2px}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login .card{width:100%;max-width:360px;padding:28px}
+.login h1{margin:0 0 4px;font-size:16px;font-weight:600;letter-spacing:.06em;color:#FDD1A1}
+.login p{margin:0 0 24px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;color:#AEBDC1}
+.field input{height:40px;padding:0 12px;border-radius:8px;border:1px solid #4D646C;background:#223136;color:#FDD1A1}
+.field input:focus{outline:none;border-color:#94A6AB}
+.login .btn{width:100%;height:40px;margin-top:6px}
+.err{color:#F87171;font-size:12.5px;margin:10px 0 0;min-height:18px}
+/* app */
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px}
+.top h1{margin:0;font-size:20px;font-weight:600;letter-spacing:.06em;color:#FDD1A1}
+.top p{margin:6px 0 0}
+.grid{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.grid>*{min-width:0}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.card-h h2{margin:0;font-size:14px;font-weight:600;color:#FDD1A1}
+.range{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.range label{font-size:11px;letter-spacing:.08em;color:#AEBDC1}
+.range input{height:32px;padding:0 8px;border-radius:8px;border:1px solid #4D646C;background:#223136;color:#E8EDEE;color-scheme:dark}
+.chart-box{position:relative;height:300px}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:#AEBDC1}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:14px;height:2px;border-radius:2px;display:inline-block}
+.legend b{color:#FDD1A1;font-weight:600}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:#94A6AB;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:10px 12px;border-bottom:1px solid #425961;white-space:nowrap}
+td{padding:12px;border-bottom:1px solid #3A4E55;white-space:nowrap;color:#E8EDEE}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.empty{padding:28px 12px;text-align:center;color:#94A6AB}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;background:#3A4E55;color:#D3DCDE;font-size:12px}
+.wa{height:30px;padding:0 10px;font-size:12px;letter-spacing:0;font-weight:500}
+.wa svg{width:14px;height:14px}
+.loading{opacity:.5;transition:opacity .2s}
+@media (max-width:640px){
+  .wrap{padding:20px 14px 48px}
+  .top h1{font-size:16px}
+  .chart-box{height:240px}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<section class="login" id="view-login" hidden>
+  <form class="card" id="login-form" novalidate>
+    <img class="logo" src="/assets/logo-claro.png" alt="Débora Carvalho Advocacia" width="977" height="415">
+    <h1>Painel de leads</h1>
+    <p class="muted">Acesse com seu usuário e senha.</p>
+    <div class="field"><label for="u">Usuário</label><input id="u" autocomplete="username" required></div>
+    <div class="field"><label for="p">Senha</label><input id="p" type="password" autocomplete="current-password" required></div>
+    <button class="btn btn-primary" id="login-btn" type="submit">ENTRAR</button>
+    <p class="err" id="login-err" role="alert"></p>
+  </form>
+</section>
+
+<div class="wrap" id="view-app" hidden>
+  <header class="top">
+    <div>
+      <img class="logo" src="/assets/logo-claro.png" alt="Débora Carvalho Advocacia" width="977" height="415">
+      <h1>Painel de leads</h1>
+      <p class="muted" id="total">Carregando...</p>
+    </div>
+    <button class="btn" id="logout" type="button">SAIR</button>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-h">
+        <h2>Evolução diária</h2>
+        <div class="range">
+          <label for="de">DE</label><input type="date" id="de">
+          <label for="ate">ATÉ</label><input type="date" id="ate">
+        </div>
+      </div>
+      <div class="chart-box" id="chart-box"><canvas id="chart" aria-label="Gráfico de visitas, cadastros e taxa de conversão por dia" role="img"></canvas></div>
+      <div class="legend">
+        <span><i style="background:#AEBDC1"></i>Visitas <b id="lg-v">0</b></span>
+        <span><i style="background:#FDD1A1"></i>Cadastros <b id="lg-l">0</b></span>
+        <span><i style="background:#4CC17A"></i>Taxa de conversão <b id="lg-c">0%</b></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h2>Conversão por LP</h2></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>LP</th><th class="num">Visitas</th><th class="num">Leads</th><th class="num">Conv.</th></tr></thead>
+          <tbody id="tb-lp"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h2>Leads</h2><span class="muted" id="leads-count"></span></div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>WhatsApp</th><th>Assunto</th><th>Origem</th><th>Data</th><th>Ação</th></tr></thead>
+          <tbody id="tb-leads"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SUPABASE_URL = 'https://qxhnjzyhtllmtdrcyygi.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4aG5qenlodGxsbXRkcmN5eWdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyMzczNjgsImV4cCI6MjA5NzgxMzM2OH0.DWf4I_x9F--H7ZZHUt_n4V3B__Nlsf1jNZdUV0vNBLU';
+  var SITE = 'debora-carvalho';
+  var CLIENTE = 'Débora Carvalho Advocacia';
+  var USUARIOS = { 'admin': 'admin@debora-carvalho.adsbr.internal' };
+
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, storageKey: 'dc-dash-auth' } });
+  var chart = null;
+  var $ = function(id){ return document.getElementById(id); };
+
+  function ymd(d){ var m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0'); return d.getFullYear() + '-' + m + '-' + dd; }
+  function parseYmd(s){ var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function pct(a, b){ return b ? (a / b * 100) : 0; }
+  function fmtPct(v){ return v.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%'; }
+  function fmtPhone(d){
+    d = String(d || '').replace(/\D/g, '');
+    if (d.length > 11 && d.indexOf('55') === 0) d = d.slice(2);
+    if (d.length === 11) return '(' + d.slice(0,2) + ') ' + d.slice(2,7) + '-' + d.slice(7);
+    if (d.length === 10) return '(' + d.slice(0,2) + ') ' + d.slice(2,6) + '-' + d.slice(6);
+    return d;
+  }
+  function waLink(nome, whats){
+    var d = String(whats || '').replace(/\D/g, '');
+    if (d.length === 10 || d.length === 11) d = '55' + d;
+    var primeiro = String(nome || '').trim().split(/\s+/)[0] || '';
+    var msg = 'Olá, ' + primeiro + '. Recebemos seu contato através da ' + CLIENTE + ' e gostaria de dar continuidade ao seu atendimento.';
+    return 'https://wa.me/' + d + '?text=' + encodeURIComponent(msg);
+  }
+  function cell(txt, cls){ var td = document.createElement('td'); if (cls) td.className = cls; td.textContent = txt; return td; }
+  function emptyRow(tbody, cols, txt){ tbody.innerHTML = ''; var tr = document.createElement('tr'); var td = document.createElement('td'); td.colSpan = cols; td.className = 'empty'; td.textContent = txt; tr.appendChild(td); tbody.appendChild(tr); }
+
+  async function fetchAll(table, cols, fromIso, toIso){
+    var out = [], size = 1000, from = 0;
+    while (true) {
+      var res = await sb.from(table).select(cols).eq('site', SITE).gte('created_at', fromIso).lt('created_at', toIso).order('created_at', { ascending: true }).range(from, from + size - 1);
+      if (res.error) throw res.error;
+      out = out.concat(res.data || []);
+      if (!res.data || res.data.length < size) break;
+      from += size;
+    }
+    return out;
+  }
+
+  async function carregar(){
+    var box = $('view-app'); box.classList.add('loading');
+    try {
+      var de = parseYmd($('de').value), ate = parseYmd($('ate').value);
+      if (ate < de) { var t = de; de = ate; ate = t; }
+      var fim = new Date(ate); fim.setDate(fim.getDate() + 1);
+      var fromIso = de.toISOString(), toIso = fim.toISOString();
+
+      var totalRes = await sb.from('lp_leads').select('id', { count: 'exact', head: true }).eq('site', SITE);
+      var total = totalRes.count || 0;
+      $('total').textContent = total === 1 ? '1 lead no total' : total.toLocaleString('pt-BR') + ' leads no total';
+
+      var visits = await fetchAll('lp_visits', 'created_at', fromIso, toIso);
+      var leads = await fetchAll('lp_leads', 'nome, whatsapp, origem, servico, site, created_at', fromIso, toIso);
+
+      // série diária
+      var dias = [], mapV = {}, mapL = {};
+      for (var d = new Date(de); d <= ate; d.setDate(d.getDate() + 1)) { var k = ymd(d); dias.push(k); mapV[k] = 0; mapL[k] = 0; }
+      visits.forEach(function(v){ var k = ymd(new Date(v.created_at)); if (k in mapV) mapV[k]++; });
+      leads.forEach(function(l){ var k = ymd(new Date(l.created_at)); if (k in mapL) mapL[k]++; });
+      var sv = dias.map(function(k){ return mapV[k]; });
+      var sl = dias.map(function(k){ return mapL[k]; });
+      var sc = dias.map(function(k){ return +pct(mapL[k], mapV[k]).toFixed(1); });
+      var labels = dias.map(function(k){ var p = k.split('-'); return p[2] + '/' + p[1]; });
+      $('lg-v').textContent = visits.length.toLocaleString('pt-BR');
+      $('lg-l').textContent = leads.length.toLocaleString('pt-BR');
+      $('lg-c').textContent = fmtPct(pct(leads.length, visits.length));
+      desenharGrafico(labels, sv, sl, sc);
+
+      // conversão por LP
+      var tb = $('tb-lp');
+      if (!visits.length && !leads.length) emptyRow(tb, 4, 'Nenhum dado encontrado');
+      else {
+        tb.innerHTML = '';
+        var tr = document.createElement('tr');
+        tr.appendChild(cell('/previdenciario'));
+        tr.appendChild(cell(visits.length.toLocaleString('pt-BR'), 'num'));
+        tr.appendChild(cell(leads.length.toLocaleString('pt-BR'), 'num'));
+        tr.appendChild(cell(fmtPct(pct(leads.length, visits.length)), 'num'));
+        tb.appendChild(tr);
+      }
+
+      // leads
+      var tl = $('tb-leads');
+      $('leads-count').textContent = leads.length ? leads.length + ' no período' : '';
+      if (!leads.length) emptyRow(tl, 6, 'Nenhum lead encontrado');
+      else {
+        tl.innerHTML = '';
+        leads.slice().reverse().forEach(function(l){
+          var tr = document.createElement('tr');
+          tr.appendChild(cell(l.nome || ''));
+          tr.appendChild(cell(fmtPhone(l.whatsapp)));
+          tr.appendChild(cell((l.servico || '').replace(/^Direito Previdenciário( — )?/, '') || 'Geral'));
+          var tdO = document.createElement('td'); var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = l.origem || 'direto'; tdO.appendChild(tag); tr.appendChild(tdO);
+          var dt = new Date(l.created_at);
+          tr.appendChild(cell(dt.toLocaleDateString('pt-BR') + ' ' + dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })));
+          var tdA = document.createElement('td'); var a = document.createElement('a');
+          a.className = 'btn wa'; a.href = waLink(l.nome, l.whatsapp); a.target = '_blank'; a.rel = 'noopener';
+          a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.4 7.6L3.5 20.5l1.4-4.4A8.5 8.5 0 1 1 20.5 11.5z"></path></svg>WhatsApp';
+          a.setAttribute('aria-label', 'Abrir WhatsApp de ' + (l.nome || 'lead'));
+          tdA.appendChild(a); tr.appendChild(tdA);
+          tl.appendChild(tr);
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      $('total').textContent = 'Não foi possível carregar os dados. Atualize a página.';
+      emptyRow($('tb-lp'), 4, 'Nenhum dado encontrado');
+      emptyRow($('tb-leads'), 6, 'Nenhum lead encontrado');
+    } finally { box.classList.remove('loading'); }
+  }
+
+  function desenharGrafico(labels, sv, sl, sc){
+    var ctx = $('chart');
+    var data = {
+      labels: labels,
+      datasets: [
+        { label: 'Visitas', data: sv, borderColor: '#AEBDC1', backgroundColor: '#AEBDC1', yAxisID: 'y', tension: .35, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2 },
+        { label: 'Cadastros', data: sl, borderColor: '#FDD1A1', backgroundColor: '#FDD1A1', yAxisID: 'y', tension: .35, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2 },
+        { label: 'Conversão (%)', data: sc, borderColor: '#4CC17A', backgroundColor: '#4CC17A', yAxisID: 'y1', tension: .35, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2, borderDash: [5, 4] }
+      ]
+    };
+    var opts = {
+      responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#223136', borderColor: '#4D646C', borderWidth: 1, titleColor: '#FDD1A1', bodyColor: '#D3DCDE', padding: 10,
+        callbacks: { label: function(c){ return ' ' + c.dataset.label + ': ' + (c.dataset.yAxisID === 'y1' ? fmtPct(c.parsed.y) : c.parsed.y); } } } },
+      scales: {
+        x: { grid: { color: '#3A4E55' }, ticks: { color: '#94A6AB', maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+        y: { beginAtZero: true, grid: { color: '#3A4E55' }, ticks: { color: '#94A6AB', precision: 0 } },
+        y1: { beginAtZero: true, position: 'right', grid: { display: false }, ticks: { color: '#94A6AB', callback: function(v){ return v + '%'; } } }
+      }
+    };
+    if (chart) { chart.data = data; chart.update(); } else { chart = new Chart(ctx, { type: 'line', data: data, options: opts }); }
+  }
+
+  function mostrarApp(){ $('view-login').hidden = true; $('view-app').hidden = false; carregar(); }
+  function mostrarLogin(){ $('view-app').hidden = true; $('view-login').hidden = false; $('u').focus(); }
+
+  $('login-form').addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    var u = $('u').value.trim(), p = $('p').value;
+    var email = u.indexOf('@') > -1 ? u : USUARIOS[u.toLowerCase()];
+    $('login-err').textContent = '';
+    if (!email || !p) { $('login-err').textContent = 'Usuário ou senha inválidos.'; return; }
+    var btn = $('login-btn'); btn.disabled = true;
+    var res = await sb.auth.signInWithPassword({ email: email, password: p });
+    btn.disabled = false;
+    if (res.error) { $('login-err').textContent = 'Usuário ou senha inválidos.'; return; }
+    mostrarApp();
+  });
+  $('logout').addEventListener('click', async function(){ await sb.auth.signOut(); if (chart) { chart.destroy(); chart = null; } mostrarLogin(); });
+  $('de').addEventListener('change', carregar);
+  $('ate').addEventListener('change', carregar);
+
+  var hoje = new Date(), ini = new Date(); ini.setDate(ini.getDate() - 29);
+  $('de').value = ymd(ini); $('ate').value = ymd(hoje);
+
+  sb.auth.getSession().then(function(r){ if (r.data && r.data.session) mostrarApp(); else mostrarLogin(); });
+})();
+</script>
+</body>
+</html>
